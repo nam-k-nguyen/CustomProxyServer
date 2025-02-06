@@ -14,14 +14,17 @@ app.get("/", (req, res) => {
 });
 
 // Example route (POST request)
-app.post("/query-notion", async (req, res) => {
+app.post("/query-notion-db", async (req, res) => {
+    let { data } = req.body;
+    let { db_id, api_key } = data;
+
     try {
         const response = await axios.post(
-            "https://api.notion.com/v1/databases/dataid/query",
-            {}, // Add body data here if needed
+            `https://api.notion.com/v1/databases/${db_id}/query`,
+            {},
             {
                 headers: {
-                    "Authorization": `Bearer YOUR_NOTION_API_KEY`,
+                    "Authorization": `Bearer ${api_key}`,
                     "Notion-Version": "2022-06-28",
                     "Content-Type": "application/json"
                 }
