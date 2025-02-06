@@ -15,7 +15,9 @@ app.get("/", (req, res) => {
 
 // Example route (POST request)
 app.post("/query-notion-db", async (req, res) => {
+    console.log(req)
     let data = req.body;
+    console.log(data)
     let { db_id, api_key } = data;
 
     try {
