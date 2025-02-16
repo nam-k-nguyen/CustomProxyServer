@@ -55,9 +55,10 @@ app.get("/get-notion-page", async (req, res) => {
                 }
             }
         );
+        console.log(res)
         res.json(response.data);
     } catch (error) {
-        res.status(res.status).json({ error: error.message });
+        res.status(404).json({ error: error.message });
     }
 })
 
