@@ -107,7 +107,7 @@ app.patch("/update-notion-page", async (req, res) => {
             `https://api.notion.com/v1/pages/${page_id}`,
             {
                 properties,
-                archived: in_trash
+                in_trash
             },
             {
                 headers: {
