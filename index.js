@@ -38,6 +38,32 @@ app.post("/query-notion-db", async (req, res) => {
     }
 });
 
+// 
+app.post("/update-notion-page", async (req, res) => {
+    console.log(req)
+    let data = req.body;
+    console.log(data)
+    let { page_id, api_key, params } = data;
+    let { properties, in_trash } = params
+
+    try {
+        const response = await axios.patch(
+            `https://api.notion.com/v1/pages/${page_id}`,
+            {},
+            {
+                headers: {
+                    "Authorization": `Bearer ${api_key}`,
+                    "Notion-Version": "2022-06-28",
+                    "Content-Type": "application/json"
+                }
+            }
+        )
+        res.json(response.data)
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
 // Start the server
 app.listen(PORT, () => {
     const env = process.env.NODE_ENV || "development";
