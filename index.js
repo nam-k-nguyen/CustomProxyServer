@@ -69,14 +69,14 @@ app.post("/create-notion-page", async (req, res) => {
     console.log(req)
     let data = req.body;
     console.log(data)
-    let { parent_id, api_key, params } = data;
-    let { properties } = params;
+    let { api_key, params } = data;
+    let { parent, properties } = params;
 
     try {
         const response = await axios.post(
             `https://api.notion.com/v1/pages`,
             {
-                parent: { database_id: parent_id },
+                parent,
                 properties
             },
             {
