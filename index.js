@@ -13,7 +13,7 @@ app.get("/", (req, res) => {
     res.send("Server is running!");
 });
 
-// Example route (POST request)
+// Query notion database with a POST request
 app.post("/query-notion-db", async (req, res) => {
     console.log(req)
     let data = req.body;
@@ -38,7 +38,7 @@ app.post("/query-notion-db", async (req, res) => {
     }
 });
 
-// 
+// Update notion page with a PATCH request
 app.post("/update-notion-page", async (req, res) => {
     console.log(req)
     let data = req.body;
@@ -49,7 +49,10 @@ app.post("/update-notion-page", async (req, res) => {
     try {
         const response = await axios.patch(
             `https://api.notion.com/v1/pages/${page_id}`,
-            {},
+            {
+                properties,
+                archived: in_trash
+            },
             {
                 headers: {
                     "Authorization": `Bearer ${api_key}`,
@@ -57,7 +60,7 @@ app.post("/update-notion-page", async (req, res) => {
                     "Content-Type": "application/json"
                 }
             }
-        )
+        );
         res.json(response.data)
     } catch (error) {
         res.status(500).json({ error: error.message });
