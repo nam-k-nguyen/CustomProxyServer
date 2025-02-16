@@ -38,8 +38,60 @@ app.post("/query-notion-db", async (req, res) => {
     }
 });
 
+app.get("/get-notion-page", async (req, res) => {
+    console.log(req)
+    let data = req.body;
+    console.log(data)
+    let { page_id, api_key } = data;
+
+    try {
+        const response = await axios.get(
+            `https://api.notion.com/v1/pages/${page_id}`,
+            {
+                headers: {
+                    "Authorization": `Bearer ${api_key}`,
+                    "Notion-Version": "2022-06-28",
+                    "Content-Type": "application/json"
+                }
+            }
+        );
+        res.json(response.data);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+})
+
+app.post("/create-notion-page", async (req, res) => {
+    console.log(req)
+    let data = req.body;
+    console.log(data)
+    let { parent_id, api_key, params } = data;
+    let { properties } = params;
+
+    try {
+        const response = await axios.post(
+            `https://api.notion.com/v1/pages`,
+            {
+                parent: { database_id: parent_id },
+                properties
+            },
+            {
+                headers: {
+                    "Authorization": `Bearer ${api_key}`,
+                    "Notion-Version": "2022-06-28",
+                    "Content-Type": "application/json"
+                }
+            }
+        );
+        res.json(response.data);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
 // Update notion page with a PATCH request
-app.post("/update-notion-page", async (req, res) => {
+app.patch("/update-notion-page", async (req, res) => {
     console.log(req)
     let data = req.body;
     console.log(data)
@@ -66,6 +118,7 @@ app.post("/update-notion-page", async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 });
+
 
 // Start the server
 app.listen(PORT, () => {
