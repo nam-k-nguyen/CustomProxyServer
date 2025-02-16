@@ -55,12 +55,13 @@ app.get("/get-notion-page", async (req, res) => {
                 }
             }
         );
-        if (response.status == 404) {
-            res.status(404).json({ error: "Page not found" });
-        }
         res.json(response.data);
     } catch (error) {
-        res.status(500).json({ error: error.message });
+        if (error.response.status) {
+            res.status(error.response.status).json({ error: error.response.data });
+        } else {
+            res.status(500).json({ error: error.message });
+        }
     }
 })
 
