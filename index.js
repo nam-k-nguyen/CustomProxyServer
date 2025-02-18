@@ -123,6 +123,30 @@ app.patch("/update-notion-page", async (req, res) => {
     }
 });
 
+app.get("get-image-metadata", async (req, res) => {
+    let headers = req.headers;
+    let data = req.body;
+    let { api_key, url } = data;
+
+    console.log(headers)
+    
+    try {
+        return
+        const response = await axios.get(
+            `https://api.linkpreview.net/?q=${url}`,
+            {
+                headers: {
+                    "X-Linkpreview-Api-Key": `${api_key}`,
+                    "Content-Type": "application/json"
+                }
+            }
+        );
+        res.json(response.data)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({ error: error.message });
+    }
+})
 
 // Start the server
 app.listen(PORT, () => {
