@@ -123,8 +123,8 @@ app.patch("/update-notion-page", async (req, res) => {
     }
 });
 
-app.get("get-image-metadata", async (req, res) => {
-    let headers = req.headers;
+app.post("get-image-metadata", async (req, res) => {
+    let headers = req.headers ? req.headers : {};
     let data = req.body;
     let { api_key, url } = data;
 
