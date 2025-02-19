@@ -131,7 +131,7 @@ app.post("get-image-metadata", async (req, res) => {
     console.log(headers)
     
     try {
-        return
+        res.json(JSON.stringify(headers))
         const response = await axios.get(
             `https://api.linkpreview.net/?q=${url}`,
             {
